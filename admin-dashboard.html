@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - Ahmad Shehadi Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar h1 {
+            font-size: 1.3rem;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+        }
+
+        .header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .card-icon.blue {
+            background-color: #007bff;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon.red {
+            background-color: #dc3545;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon.green {
+            background-color: #28a745;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Posts Management */
+        .posts-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1rem;
+        }
+
+        .section-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .post-item {
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-info h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        .post-meta {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .post-actions button {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .edit-btn:hover {
+            background-color: #e0a800;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>🎛️ لوحة التحكم</h1>
+        <div class="navbar-right">
+            <div class="user-info">
+                <span id="userEmail" style="color: #ccc; font-size: 0.9rem;"></span>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()">تسجيل الخروج</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h2>لوحة التحكم</h2>
+            <p id="greeting"></p>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-grid">
+            <a href="#posts" class="dashboard-card" onclick="scrollToSection('posts')">
+                <div class="card-icon blue">📝</div>
+                <div class="card-content">
+                    <h3>إدارة المقالات</h3>
+                    <p>إضافة وتعديل وحذف المقالات</p>
+                </div>
+            </a>
+
+            <a href="#videos" class="dashboard-card" onclick="scrollToSection('videos')">
+                <div class="card-icon red">🎥</div>
+                <div class="card-content">
+                    <h3>إدارة الفيديوهات</h3>
+                    <p>إدارة فيديوهات اليوتيوب</p>
+                </div>
+            </a>
+
+            <a href="#pages" class="dashboard-card" onclick="scrollToSection('pages')">
+                <div class="card-icon green">📄</div>
+                <div class="card-content">
+                    <h3>إدارة الصفحات</h3>
+                    <p>إنشاء وتعديل الصفحات الإضافية</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Posts Management Section -->
+        <div id="posts" class="posts-section" style="margin-bottom: 2rem;">
+            <div class="section-header">
+                <h3>المقالات</h3>
+                <button class="btn" onclick="openNewPostForm()">+ مقالة جديدة</button>
+            </div>
+
+            <div class="posts-list">
+                <div class="post-item">
+                    <div class="post-info">
+                        <h4>مرحباً بك في مدونتي</h4>
+                        <span class="post-meta">تاريخ الإنشاء: 14 أبريل 2026 | الحالة: منشورة</span>
+                    </div>
+                    <div class="post-actions">
+                        <button class="edit-btn" onclick="editPost(1)">تعديل</button>
+                        <button class="delete-btn" onclick="deletePost(1)">حذف</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Videos Management Section -->
+        <div id="videos" class="posts-section" style="margin-bottom: 2rem;">
+            <div class="section-header">
+                <h3>الفيديوهات</h3>
+                <button class="btn" onclick="openNewVideoForm()">+ فيديو جديد</button>
+            </div>
+
+            <div class="empty-state">
+                <p>لا توجد فيديوهات حالياً</p>
+                <p style="margin-top: 1rem;">
+                    <button class="btn" onclick="openNewVideoForm()">اضف فيديو جديد</button>
+                </p>
+            </div>
+        </div>
+
+        <!-- Pages Management Section -->
+        <div id="pages" class="posts-section">
+            <div class="section-header">
+                <h3>الصفحات</h3>
+                <button class="btn" onclick="openNewPageForm()">+ صفحة جديدة</button>
+            </div>
+
+            <div class="empty-state">
+                <p>لا توجد صفحات إضافية حالياً</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userEmail = localStorage.getItem('userEmail');
+
+            if (!isLoggedIn) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            // Display user info
+            document.getElementById('userEmail').textContent = userEmail;
+            document.getElementById('greeting').textContent = `مرحباً، ${userEmail}`;
+        });
+
+        function handleLogout() {
+            if (confirm('هل أنت متأكد من رغبتك في تسجيل الخروج؟')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            event.preventDefault();
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function openNewPostForm() {
+            alert('سيتم فتح نموذج إضافة مقالة جديدة');
+            // You can create a modal or redirect to a form page
+        }
+
+        function openNewVideoForm() {
+            alert('سيتم فتح نموذج إضافة فيديو جديد');
+        }
+
+        function openNewPageForm() {
+            alert('سيتم فتح نموذج إضافة صفحة جديدة');
+        }
+
+        function editPost(postId) {
+            alert(`تحرير المقالة رقم ${postId}`);
+        }
+
+        function deletePost(postId) {
+            if (confirm('هل أنت متأكد من رغبتك في حذف هذه المقالة؟')) {
+                alert('تم حذف المقالة بنجاح');
+            }
+        }
+    </script>
+</body>
+</html>
